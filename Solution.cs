@@ -34,10 +34,10 @@ class Solution{
                     where b.Ref == booking 
                     group new {b,bo,f} by b.Ref into grp 
                     select new BookingOverview {
-                        FlightDetails=(from g in grp select new Tuple(g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
+                        FlightDetails=(from g in grp select (g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
                         TotalFare=grp.Sum(g=>g.bo.Fare),
                     });
-        return default;  //this line of code should be changed    
+        return query;  //this line of code should be changed    
         
     }
 
