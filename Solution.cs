@@ -26,15 +26,7 @@ class Solution{
     //    List of Tuples containing Departure and Arrival airports (FlightDetails); 
     //    Calculate the total fare of given booking (TotalFare).
     public static BookingOverview Q3(FlightContext db, int booking) {   
-           var query = (from bo in db.Bookings
-                        join t in db.Tickets on bo.Ref equals t.BookingRef
-                        join b in db.BoardingPasses on t.Id equals b.TicketID 
-                        join f in db.Flights on b.FlightID equals f.Id
-                        where bo.Ref == booking 
-                        group new {bo,t,f} by f.Id into grp 
-                        from _ in grp 
-                        select new BookingOverview(new List<Tuple<string, string>>(),grp.Count()));
-        return default;
+           return default;
     }
 
     //Q4: List down number of seats booked (TotalSeats) per flight (FlightID)  [SeatsInFlight]
@@ -43,11 +35,10 @@ class Solution{
     //    Using the Sum method might be useful to compute TotalSeats.
     
     public static IQueryable<SeatsInFlight> Q4(FlightContext db) {
-        var query = (from f in db.Flights 
-                    join bo in db.BoardingPasses on f.Id equals bo.FlightID
-                    group new {bo,f} by f.Id into grp 
+        var query = (from bo in db.BoardingPasses 
+                    join f in db.Flights on bo.FlightID equals f.Id into grp
                     from _ in grp.DefaultIfEmpty()
-                    select new SeatsInFlight(grp.Key, grp.Sum(g=>Convert.ToInt32(g.bo.SeatNumber))));
+                    select new SeatsInFlight(_.Id, grp.Count()));
         return query;  //this line of code should be changed   
               
     }
@@ -76,7 +67,7 @@ class Solution{
     //    HINT: having a look at the implementation of the seed methods in Data class (FlightModel.cs) can be useful.
     //          as well as DateTimeUtils methods in DataFormats.cs
     public static void Q7(FlightContext db) {
-        var newFlight = new Flight(1,"A","B",DateTimeUtils.RandomDateTime(),DateTimeUtils.RandomDateTime());
+        var newFlight = new Flight(10000000,"A","B",DateTimeUtils.RandomDateTime(),DateTimeUtils.RandomDateTime());
         var newBooking = new Booking(200,DateTimeUtils.RandomDateOnly());
         var newTicket = new Ticket{
             Id = 1000,
