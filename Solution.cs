@@ -30,9 +30,9 @@ class Solution{
                         join t in db.Tickets on b.Ref equals t.BookingRef 
                         join bo in db.BoardingPasses on t.Id equals bo.TicketID
                         join f in db.Flights on bo.FlightID equals f.Id
-                        where b.Ref == booking 
                         group new {b,bo,f} by b.Ref into grp 
                         from _ in grp 
+                        where _.b.Ref == booking
                         select new BookingOverview(
                             (from g in grp select new Tuple<string,string>(g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
                             (grp.Sum(g=>g.bo.Fare))
