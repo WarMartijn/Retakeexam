@@ -45,7 +45,7 @@ class Solution{
                     join bo in db.BoardingPasses on f.Id equals bo.FlightID
                     group new {bo,f} by f.Id into grp 
                     from _ in grp.DefaultIfEmpty()
-                    select new SeatsInFlight(grp.Key, grp.Count()));
+                    select new SeatsInFlight(grp.Key, grp.Sum(g=>g.bo)));
         return query;  //this line of code should be changed   
               
     }
