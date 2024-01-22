@@ -17,7 +17,7 @@ class Solution{
         var query = (from t in db.Tickets 
                     join b in db.BoardingPasses on t.Id equals b.TicketID
                     where t.Name == person 
-                    select new BoardingPassWithName(b.FlightID, b.FlightID, b.Fare, b.SeatNumber, t.Name, b.IssueTime));
+                    select new BoardingPassWithName(b.FlightID, b.TicketID, b.Fare, b.SeatNumber, t.Name, b.IssueTime));
         return query;  //this line of code should be changed 
         
     }
