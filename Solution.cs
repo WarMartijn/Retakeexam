@@ -26,18 +26,18 @@ class Solution{
     //    List of Tuples containing Departure and Arrival airports (FlightDetails); 
     //    Calculate the total fare of given booking (TotalFare).
     public static BookingOverview Q3(FlightContext db, int booking) {   
-           var queyr = (from b in db.Bookings
+           var query = (from b in db.Bookings
                         join t in db.Tickets on b.Ref equals t.BookingRef 
                         join bo in db.BoardingPasses on t.Id equals bo.TicketID
                         join f in db.Flights on bo.FlightID equals f.Id
                         where b.Ref == booking 
-                        group new {b,bo,t,f} by b.Ref into grp 
+                        group new {b,bo,f} by b.Ref into grp 
                         from _ in grp 
                         select new BookingOverview(
                             (from g in grp select new Tuple<string, string>(g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
                             grp.Sum(g=>g.bo.Fare)
-                        )).ToList();
-        return queyr.First();
+                        )).FirstOrDefault();
+        return query;
     }
 
     //Q4: List down number of seats booked (TotalSeats) per flight (FlightID)  [SeatsInFlight]
