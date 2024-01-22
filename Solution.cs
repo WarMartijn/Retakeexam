@@ -64,32 +64,7 @@ class Solution{
     //          as well as DateTimeUtils methods in DataFormats.cs
     public static void Q7(FlightContext db) {
         
-        var newFlight = new Flight {
-            Id=10000 ,
-            DepartureAirport="Everywhere", 
-            ArrivalAirport="Somewhere ", 
-            DepartureTime= DateTimeUtils.RandomDateTime(), 
-            ArrivalTime = DateTimeUtils.RandomDateTime(),
-        };
-        var newBooking = new Booking{
-             Ref=10000,
-             Date=DateTimeUtils.RandomDateOnly(),
-        };
-        var newTicket = new Ticket{
-            Id=10000,
-            Name="Dave",
-            Booking=newBooking,
-            BookingRef=newBooking.Ref,
-        };
-        var newBoardingPass = new BoardingPass{
-            
-            FlightID=newFlight.Id,
-            TicketID=newTicket.Id,
-            Fare=1000,
-            SeatNumber=(from b in db.BoardingPasses select b.SeatNumber ).Max()+1,
-            IssueTime=DateTimeUtils.RandomDateTime(),
-        };
-        db.AddRange(newFlight,newBooking,newTicket,newBoardingPass);
+    
     }
 }
 
