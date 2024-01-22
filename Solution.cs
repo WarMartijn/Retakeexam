@@ -47,8 +47,15 @@ class Solution{
     //    Using the Sum method might be useful to compute TotalSeats.
     
     public static IQueryable<SeatsInFlight> Q4(FlightContext db) {
-        
-        return (new List<SeatsInFlight>()).AsQueryable();  //this line of code should be changed   
+        var query = (from f in db.Flights 
+                    join bo in db.BoardingPasses on f.Id equals bo.FlightID
+                    group new {bo,f} by f.Id into grp 
+                    from _ in grp.DefaultIfEmpty()
+                    select new SeatsInFlight{
+                        FlightID = grp.Key,
+                        TotalSeats=grp.Count
+                    });
+        return query;  //this line of code should be changed   
               
     }
  
