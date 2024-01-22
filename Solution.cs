@@ -26,7 +26,12 @@ class Solution{
     //    List of Tuples containing Departure and Arrival airports (FlightDetails); 
     //    Calculate the total fare of given booking (TotalFare).
     public static BookingOverview Q3(FlightContext db, int booking) {   
-           
+           var query = (from bo in db.Bookings
+                        join t in db.Tickets on bo.Ref equals t.BookingRef
+                        join b in db.BoardingPasses on t.Id equals b.TicketID 
+                        join f in db.Flights on b.FlightID equals f.Id 
+                        where bo.Ref == booking 
+                        select new BookingOverview(default,default));
         return default;
     }
 
@@ -40,10 +45,7 @@ class Solution{
                     join bo in db.BoardingPasses on f.Id equals bo.FlightID
                     group new {bo,f} by f.Id into grp 
                     from _ in grp.DefaultIfEmpty()
-                    select new SeatsInFlight(
-                       grp.Key,
-                        grp.Count()
-        ));
+                    select new SeatsInFlight(grp.Key, grp.Count()));
         return query;  //this line of code should be changed   
               
     }
