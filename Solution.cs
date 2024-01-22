@@ -29,9 +29,11 @@ class Solution{
            var query = (from bo in db.Bookings
                         join t in db.Tickets on bo.Ref equals t.BookingRef
                         join b in db.BoardingPasses on t.Id equals b.TicketID 
-                        join f in db.Flights on b.FlightID equals f.Id 
+                        join f in db.Flights on b.FlightID equals f.Id
                         where bo.Ref == booking 
-                        select new BookingOverview(default,default));
+                        group new {bo,t,f} by f.Id into grp 
+                        from _ in grp 
+                        select new BookingOverview(new List<Tuple<string, string>>(),grp.Count()));
         return default;
     }
 
@@ -45,7 +47,7 @@ class Solution{
                     join bo in db.BoardingPasses on f.Id equals bo.FlightID
                     group new {bo,f} by f.Id into grp 
                     from _ in grp.DefaultIfEmpty()
-                    select new SeatsInFlight(grp.Key, grp.Sum(g=>g.bo)));
+                    select new SeatsInFlight(grp.Key, grp.Sum(g=>Convert.ToInt32(g.bo.SeatNumber))));
         return query;  //this line of code should be changed   
               
     }
