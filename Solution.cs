@@ -74,8 +74,16 @@ class Solution{
     //    HINT: having a look at the implementation of the seed methods in Data class (FlightModel.cs) can be useful.
     //          as well as DateTimeUtils methods in DataFormats.cs
     public static void Q7(FlightContext db) {
-        
-    
+        var newFlight = new Flight(1,"A","B",DateTimeUtils.RandomDateTime(),DateTimeUtils.RandomDateTime());
+        var newBooking = new Booking(200,DateTimeUtils.RandomDateOnly());
+        var newTicket = new Ticket{
+            Id = 1000,
+            Name = "Wow",
+            Booking=newBooking,
+            BookingRef = newBooking.Ref
+        };
+        var newPass = new BoardingPass(newFlight.Id, newTicket.Id,1000000,"1203",DateTimeUtils.RandomDateTime());
+        db.AddRange(newFlight,newBooking,newTicket,newPass);
     }
 }
 
