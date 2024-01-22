@@ -65,18 +65,18 @@ class Solution{
     public static void Q7(FlightContext db) {
         
         var newFlight = new Flight {
-            Id=(from f in db.Flights select f.Id).Max()+1 , 
+            Id=10000 ,
             DepartureAirport="Everywhere", 
             ArrivalAirport="Somewhere ", 
             DepartureTime= DateTimeUtils.RandomDateTime(), 
             ArrivalTime = DateTimeUtils.RandomDateTime(),
         };
         var newBooking = new Booking{
-             Ref=(from b in db.Bookings select b.Ref).Max()+1, 
+             Ref=10000,
              Date=DateTimeUtils.RandomDateOnly(),
         };
         var newTicket = new Ticket{
-            Id=(from t in db.Tickets select t.Id).Max()+1,
+            Id=10000,
             Name="Dave",
             Booking=newBooking,
             BookingRef=newBooking.Ref,
