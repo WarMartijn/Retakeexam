@@ -62,7 +62,10 @@ class Solution{
     //Q5: List down the flights [if any] that were never booked
     public static IQueryable<Flight> Q5(FlightContext db) {
         
-        return (new List<Flight>()).AsQueryable();  //this line of code should be changed 
+        var flights =(from f in db.Flights 
+                        where !db.BoardingPasses.Any(b=>b.FlightID == f.Id)
+                        select f);
+        return flights;  //this line of code should be changed 
         
     }
     
