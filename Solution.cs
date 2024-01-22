@@ -27,7 +27,17 @@ class Solution{
     //    Calculate the total fare of given booking (TotalFare).
     public static BookingOverview Q3(FlightContext db, int booking) {   
            
-        return (new BookingOverview(new List<Tuple<string, string>>(), 0));  //this line of code should be changed    
+        var query = (from b in db.Bookings 
+                    join t in db.Tickets on b.TicketID equals t.ID 
+                    join bo in db.BoardingPasses on t.Id equals bo.TicketID
+                    join f in db.Flights on bo.FlightID equals f.ID 
+                    where b.Ref == booking 
+                    group new {b,t,bo,f} by b.Ref into grp 
+                    select new BookingOverview{
+                        FlightDetails=grp.Select(g=>(g.f.DepartureAirport,g.f.ArrivalAirport)),
+                        TotalFare=grp.Sum(g=>g.bo.Fare),
+                    });
+        return query;  //this line of code should be changed    
         
     }
 
