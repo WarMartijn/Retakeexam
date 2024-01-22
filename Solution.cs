@@ -36,7 +36,7 @@ class Solution{
                         select new BookingOverview(
                             (from g in grp select new Tuple<string, string>(g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
                             grp.Sum(g=>g.bo.Fare)
-                        )).First();
+                        )).ToList();
         return queyr;
     }
 
