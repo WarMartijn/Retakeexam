@@ -34,7 +34,7 @@ class Solution{
                         from _ in grp 
                         where _.b.Ref == booking
                         select new BookingOverview(
-                            (from g in grp select new Tuple<string,string>(g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
+                            default,
                             (grp.Sum(g=>g.bo.Fare))
                         )).First();
             
