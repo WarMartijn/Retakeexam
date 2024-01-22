@@ -37,7 +37,7 @@ class Solution{
                             (from g in grp select new Tuple<string, string>(g.f.DepartureAirport,g.f.ArrivalAirport)).ToList(),
                             grp.Sum(g=>g.bo.Fare)
                         )).ToList();
-        return queyr;
+        return queyr.First();
     }
 
     //Q4: List down number of seats booked (TotalSeats) per flight (FlightID)  [SeatsInFlight]
