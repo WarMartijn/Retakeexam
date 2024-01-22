@@ -28,11 +28,11 @@ class Solution{
     public static BookingOverview Q3(FlightContext db, int booking) {   
            
         var query = (from b in db.Bookings 
-                    join t in db.Tickets on b.TicketID equals t.ID 
+                    join t in db.Tickets on b.Ref equals t.BookingRef
                     join bo in db.BoardingPasses on t.Id equals bo.TicketID
                     join f in db.Flights on bo.FlightID equals f.ID 
                     where b.Ref == booking 
-                    group new {b,t,bo,f} by b.Ref into grp 
+                    group new {b,bo,f} by b.Ref into grp 
                     select new BookingOverview{
                         FlightDetails=grp.Select(g=>(g.f.DepartureAirport,g.f.ArrivalAirport)),
                         TotalFare=grp.Sum(g=>g.bo.Fare),
