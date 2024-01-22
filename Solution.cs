@@ -33,8 +33,8 @@ class Solution{
                     join f in db.Flights on bo.FlightID equals f.Id
                     where b.Ref == booking 
                     group new {b,bo,f} by b.Ref into grp 
-                    select new BookingOverview{
-                        FlightDetails=grp.Select(g=>(g.f.DepartureAirport,g.f.ArrivalAirport).ToTuple()).ToList(),
+                    select new BookingOverview {
+                        FlightDetails=default,
                         TotalFare=grp.Sum(g=>g.bo.Fare),
                     });
         return query;  //this line of code should be changed    
