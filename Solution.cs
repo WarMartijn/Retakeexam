@@ -17,7 +17,7 @@ class Solution{
         var query = (from t in db.Tickets 
                     join b in db.BoardingPasses on t.Id equals b.TicketID
                     where t.Name == person 
-                    select new BoardingPassWithName(b.FlightID, b.TicketID, b.Fare, b.SeatNumber, t.Name, b.IssueTime));
+                    select new BoardingPassWithName(b,t.name));
         return query;  //this line of code should be changed 
         
     }
@@ -63,7 +63,33 @@ class Solution{
     //    HINT: having a look at the implementation of the seed methods in Data class (FlightModel.cs) can be useful.
     //          as well as DateTimeUtils methods in DataFormats.cs
     public static void Q7(FlightContext db) {
-
+        
+        var newFlight = new Flight{
+            Id=(from f in db.Flights select f.Id).Max()+1 , 
+            DepartureAirport="Everywhere", 
+            ArrivalAirport="Somewhere ", 
+            DepartureTime= DateTimeUtils.RandomDateTime(), 
+            ArrivalTime = DateTimeUtils.RandomDateTime(),
+        };
+        var newBooking = new Booking{
+             Ref=(from b in db.Bookings select b.Ref).Max()+1, 
+             Date=DateTimeUtils.RandomDateOnly(),
+        };
+        var newTicket = new Ticket{
+            Id=(from t in db.Tickets select t.Id).Max()+1,
+            Name="Dave",
+            Booking=newBooking,
+            BookingRef=newBooking.Ref,
+        };
+        var newBoardingPass = new BoardingPass{
+            
+            FlightId=newFlight.Id,
+            TicketId=newTicket.Id,
+            Fare=1000,
+            SeatNumber=(from b in db.BoardingPasses select b.SeatNumber ).Max()+1,
+            IssueTime=DateTimeUtils.RandomDateTime(),
+        };
+        db.AddRange(newFlight,newBooking,newTicket,newBoardingPass);
     }
 }
 
