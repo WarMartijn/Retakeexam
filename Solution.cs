@@ -68,8 +68,8 @@ class Solution{
                         join f in db.Flights on bo.FlightID equals f.Id 
                         where t.Id == TicketID2
                         select new FlightInfo(bo.FlightID,f.DepartureAirport,f.ArrivalAirport));
-            
-        return (new List<FlightInfo>());  //this line of code should be changed 
+        var final = query1.Except(query2).ToList();
+        return final;  //this line of code should be changed 
         
     }
 
@@ -88,6 +88,7 @@ class Solution{
         };
         var newPass = new BoardingPass(newFlight.Id, newTicket.Id,1000000,"1203",DateTimeUtils.RandomDateTime());
         db.AddRange(newFlight,newBooking,newTicket,newPass);
+        db.SaveChanges();
     }
 }
 
