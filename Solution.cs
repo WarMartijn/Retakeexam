@@ -35,7 +35,7 @@ class Solution{
                         where _.b.Ref == booking
                         select new BookingOverview(
                             default,
-                            (grp.Sum(g=>g.bo.Fare))
+                            default
                         )).First();
             
         return query;
