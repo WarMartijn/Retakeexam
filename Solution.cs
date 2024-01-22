@@ -33,8 +33,8 @@ class Solution{
                     join f in db.Flights on bo.FlightID equals f.Id
                     where b.Ref == booking 
                     group new {b,bo,f} by b.Ref into grp 
-                    select new BookingOverview() {
-                        FlightDetails=default,
+                    select new BookingOverview {
+                        FlightDetails=new List(),
                         TotalFare=default,
                     });
         return query;  //this line of code should be changed    
