@@ -58,6 +58,17 @@ class Solution{
     //    WITHOUT repetitions.
     public static List<FlightInfo> Q6(FlightContext db, int TicketID1, int TicketID2) {
           
+          var query1 = (from bo in db.BoardingPasses
+                        join t in db.Tickets on bo.TicketID equals t.Id 
+                        join f in db.Flights on bo.FlightID equals f.Id 
+                        where t.Id == TicketID1
+                        select new FlightInfo(bo.FlightID,f.DepartureAirport,f.ArrivalAirport));
+          var query2 = (from bo in db.BoardingPasses
+                        join t in db.Tickets on bo.TicketID equals t.Id 
+                        join f in db.Flights on bo.FlightID equals f.Id 
+                        where t.Id == TicketID2
+                        select new FlightInfo(bo.FlightID,f.DepartureAirport,f.ArrivalAirport));
+            
         return (new List<FlightInfo>());  //this line of code should be changed 
         
     }
