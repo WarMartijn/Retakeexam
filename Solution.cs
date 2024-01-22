@@ -68,7 +68,9 @@ class Solution{
                         join f in db.Flights on bo.FlightID equals f.Id 
                         where t.Id == TicketID2
                         select new FlightInfo(bo.FlightID,f.DepartureAirport,f.ArrivalAirport));
-        var final = query1.Except(query2).ToList();
+        var final = (from i in query1
+                     join x in query2 on i.FlightID equals x.FlightID
+                     select i).ToList();
         return final;  //this line of code should be changed 
         
     }
