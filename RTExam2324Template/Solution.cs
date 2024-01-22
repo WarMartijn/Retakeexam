@@ -3,8 +3,9 @@ class Solution{
 
     //Q1: Select all the outbound and inbound flights at given airport, the arrival time should be used to order the result.
     public static IQueryable<Flight> Q1(FlightContext db, string airport) {
-        
-        return (new List<Flight>()).AsQueryable();  //this line of code should be changed 
+        var query = (from f in db.Flights where f.DepartureAirport == airport || f.ArrivalAirport == airport select f)
+        .OrderBy(f=>f.ArrivalTime).AsQueryable();
+        return query;  //this line of code should be changed 
 
     }
 
