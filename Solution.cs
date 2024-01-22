@@ -10,10 +10,15 @@ class Solution{
     }
 
     //Q2: For given person name 
-    //    find the boarding passes (flight id, Ticket id, fare, seat number and issue date) with passenger name [BoardingPassWithName].
+    //    find the boarding passes 
+    // (flight id, Ticket id, fare, seat number and issue date) 
+    //with passenger name [BoardingPassWithName].
     public static IQueryable<BoardingPassWithName> Q2(FlightContext db, string person) {
-        
-        return (new List<BoardingPassWithName>()).AsQueryable();  //this line of code should be changed 
+        var query = (from t in db.Tickets 
+                    join b in db.BoardingPasses on t.Id equals b.TicketID
+                    where t.Name == person 
+                    select b);
+        return query;  //this line of code should be changed 
         
     }
 
