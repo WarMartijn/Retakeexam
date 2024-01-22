@@ -34,8 +34,8 @@ class Solution{
                         from _ in grp 
                         where _.b.Ref == booking
                         select new BookingOverview(
-                            default,
-                            default
+                            new List<Tuple<string, string>> (),
+                            0
                         )).First();
             
         return query;
