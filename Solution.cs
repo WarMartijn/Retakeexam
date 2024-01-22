@@ -17,7 +17,7 @@ class Solution{
         var query = (from t in db.Tickets 
                     join b in db.BoardingPasses on t.Id equals b.TicketID
                     where t.Name == person 
-                    select new BoardingPassWithName(b,t.name));
+                    select new BoardingPassWithName(b,t.Name));
         return query;  //this line of code should be changed 
         
     }
@@ -64,7 +64,7 @@ class Solution{
     //          as well as DateTimeUtils methods in DataFormats.cs
     public static void Q7(FlightContext db) {
         
-        var newFlight = new Flight{
+        var newFlight = new Flight {
             Id=(from f in db.Flights select f.Id).Max()+1 , 
             DepartureAirport="Everywhere", 
             ArrivalAirport="Somewhere ", 
@@ -83,8 +83,8 @@ class Solution{
         };
         var newBoardingPass = new BoardingPass{
             
-            FlightId=newFlight.Id,
-            TicketId=newTicket.Id,
+            FlightID=newFlight.Id,
+            TicketID=newTicket.Id,
             Fare=1000,
             SeatNumber=(from b in db.BoardingPasses select b.SeatNumber ).Max()+1,
             IssueTime=DateTimeUtils.RandomDateTime(),
